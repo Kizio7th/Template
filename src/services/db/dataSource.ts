@@ -2,6 +2,7 @@
 import { DataSource } from 'typeorm';
 import { User } from '../../components/user/User.entity';
 import { Book } from '../../components/book/Book.entity';
+import { Author } from '../../components/author/Author.entity';
 
 const dataSource = new DataSource({
   type: 'mysql',
@@ -15,6 +16,7 @@ const dataSource = new DataSource({
   charset: 'utf8mb4',
   entities: [
     User,
+    Author,
     Book
   ],
   cache: {

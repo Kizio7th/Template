@@ -6,6 +6,7 @@ import { createServer } from 'http';
 import { UserAPI } from './components/user/User.api';
 import { BookAPI } from './components/book/Book.api';
 import dataSource from './services/db/dataSource';
+import { AuthorAPI } from './components/author/Author.api';
 
 export class App extends Server {
   constructor() {
@@ -65,6 +66,7 @@ export class App extends Server {
       super.addControllers([
         // Add controllers here
         new UserAPI(),
+        new AuthorAPI(),
         new BookAPI()
       ])
     } catch (error) {

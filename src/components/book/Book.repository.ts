@@ -1,40 +1,45 @@
 import dataSource from "../../services/db/dataSource";
+import { AuthorRepository } from "../author/Author.repository";
 import { Book } from "./Book.entity";
 
-const bookRepository = dataSource.getRepository(Book);
-
-export class BookService {
-  createBook(name, author, price) {
-    return bookRepository.save({
+export const BookRepository = dataSource.getRepository(Book).extend({
+  async createBook(name: string, authorName: string, price: number): Promise<Book> {
+    const author = await AuthorRepository.createAuthor(authorName);
+    const book = this.save({
       name: name,
       author: author,
       price: price,
     });
-  }
-  async editBook(id, body) {
+    author.books.push(book)
+    return book;
+  },
+  async editBook(id, body): Promise<Book> {
     const book = await this.findBookById(id);
-    bookRepository.update(id, {
+    this.update(id, {
       name: body.Name || book.name,
-      author: body.Author || book.author,
       price: body.Price || book.price,
     });
     return book;
-  }
-  findBooks() {
-    return bookRepository.find();
-  }
-  findBookByName(name) {
-    return bookRepository.find({
+  },
+  findBooks():Promise<Book>[] {
+    return this.find();
+  },
+  findBookByName(name): Promise<Book>[] {
+    return this.find({
       where: {
         name: name,
       },
     });
-  }
-  findBookById(id) {
-    return bookRepository.findOne({ where: { id: id } });
-  }
+  },
+  findBookById(id): Promise<Book> {
+    return this.findOne({ where: { id: id } });
+  },
+  findBookByAuthor(name):Promise<Book> {
+    const author = AuthorRepository.findAuthorByName(name);
+    return this.findOne({ where: { author: author } });
+  },
   deleteBookById(id) {
-    bookRepository.delete(id);
-    return "Book " + id + " deleted"
-  }
-}
+    this.delete(id);
+    return "Book " + id + " deleted";
+  },
+});
