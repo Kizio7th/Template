@@ -1,18 +1,22 @@
 import { NextFunction, Request, Response } from "express";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { User } from "./User.entity";
+
+export interface CustomRequest extends Request {
+  user?: User
+}
 
 export default class UserMiddleware {
-  static async test(req: Request, res: Response, next: NextFunction) {
-    return next();
-  }
-  static async checkAuth(req: Request, res: Response, next: NextFunction) {
+  static async checkAuth(req: CustomRequest, res: Response, next: NextFunction) {
     const token = req.headers.authorization.split(" ")[1];
     try {
-      const checkToken = jwt.verify(token, process.env.JWT_SECRET);
-      console.log(checkToken);
+      const verify = jwt.verify(token, process.env.JWT_SECRET) as JwtPayload;
+      req.user = verify.user;
       return next();
     } catch (error) {
       return next(error);
     }
   }
 }
+
+

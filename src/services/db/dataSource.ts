@@ -3,7 +3,7 @@ import { DataSource } from 'typeorm';
 import { User } from '../../components/user/User.entity';
 import { Book } from '../../components/book/Book.entity';
 import { Author } from '../../components/author/Author.entity';
-import { AuthorBook } from '../../components/author_book/AuthorBook.entity';
+import { BookAuthor } from '../../components/book_author/BookAuthor.entity';
 
 const dataSource = new DataSource({
   type: 'mysql',
@@ -19,7 +19,7 @@ const dataSource = new DataSource({
     User,
     Author,
     Book,
-    AuthorBook
+    BookAuthor
   ],
   cache: {
     // type: 'ioredis',

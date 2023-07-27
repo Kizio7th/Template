@@ -1,5 +1,6 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { AuthorBook } from "../author_book/AuthorBook.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BookAuthor } from "../book_author/BookAuthor.entity";
+import { User } from "../user/User.entity";
 
 @Entity({ name: "book" })
 export class Book {
@@ -9,6 +10,8 @@ export class Book {
   name: string;
   @Column()
   price: number;
-  @OneToMany(() => AuthorBook, authorBook => authorBook.book)
-  authorBooks: AuthorBook[];
+  @ManyToOne( () => User, (user) => user.books, { eager: true })
+  user: User
+  @OneToMany(() => BookAuthor, (bookAuthor) => bookAuthor.book, { cascade: true })
+  bookAuthors: BookAuthor[]
 }
