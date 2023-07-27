@@ -10,7 +10,7 @@ export class Book {
   name: string;
   @Column()
   price: number;
-  @ManyToOne( () => User, (user) => user.books, { eager: true })
+  @ManyToOne( () => User, (user) => user.books, { eager: true, onDelete: 'CASCADE'  })
   user: User
   @OneToMany(() => BookAuthor, (bookAuthor) => bookAuthor.book, { cascade: true })
   bookAuthors: BookAuthor[]

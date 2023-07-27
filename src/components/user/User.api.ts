@@ -3,7 +3,6 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { HttpStatusCode } from "axios";
 import { UserRepository } from "./User.repository";
-import { User } from "./User.entity";
 
 @Controller("api/user")
 export class UserAPI {

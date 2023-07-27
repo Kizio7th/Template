@@ -6,9 +6,9 @@ import { Author } from "../author/Author.entity";
 export class BookAuthor {
     @PrimaryGeneratedColumn()
     id: number;
-    @ManyToOne(() => Book, (book) => book.bookAuthors, { eager: true })
+    @ManyToOne(() => Book, (book) => book.bookAuthors, { eager: true , onDelete: 'CASCADE' })
     book: Book;
-    @ManyToOne(() => Author, (author) => author.bookAuthors, { eager: true })
+    @ManyToOne(() => Author, (author) => author.bookAuthors, { eager: true , onDelete: 'CASCADE' })
     author: Author;
     
 }
