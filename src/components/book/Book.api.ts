@@ -17,6 +17,10 @@ export class BookAPI {
   public async getAllBooks(req: Request, res: Response, next: NextFunction) {
     res.send(await BookRepository.findBooks());
   }
+  @Get("author/:name")
+  public async getBooksByAuthor(req: Request, res: Response, next: NextFunction) {
+    res.send(await BookRepository.findBooksByAuthor(req.params.name));
+  }
   @Get("id/:id")
   public async getBookById(req: Request, res: Response, next: NextFunction) {
     res.send(await BookRepository.findBookById(req.params.id));
@@ -39,7 +43,6 @@ export class BookAPI {
   @Put("editBook/:id")
   public async editBook(req: Request, res: Response, next: NextFunction) {
     try {
-      console.log(req.body);
       const book = await BookRepository.editBook(req.params.id, req.body);
       console.log("Book edited:", book);
       res.send({ message: "Book edited", book });

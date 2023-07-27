@@ -6,9 +6,6 @@ export const AuthorRepository = dataSource.getRepository(Author).extend({
     return await this.findOne({ where: { name: name } });
   },
   createAuthor(name: string): Promise<Author> {
-    return this.save({
-      name: name,
-      books: [],
-    });
+    return this.save({ name: name });
   },
 });
